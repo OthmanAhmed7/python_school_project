@@ -27,7 +27,6 @@ from products.views import contact_us as prod_con
 from products.views import welcome as prod_wel
 
 urlpatterns = [
-    # path('products/', include('products.urls')),
     path('admin/', admin.site.urls),
     path('', home, name='index'),
     path('school/home/', home, name='home'),
@@ -36,5 +35,5 @@ urlpatterns = [
     path('products/home/', prod_home, name='home'),
     path('products/contact/', prod_con, name='contact'),
     path('products/welcome/', prod_wel, name='welcome'),
-] 
-# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('products/', include('products.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
