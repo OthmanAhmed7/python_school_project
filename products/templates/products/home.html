@@ -1,20 +1,75 @@
-{% extends 'base.html' %} {% block title %} HOME {{name}} {% endblock title %}
+{% extends 'base.html' %}
+{% block title %}List a product{% endblock %}
 {% block content %}
+{% if user.is_authenticated %}
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required />
+        <br />
+
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
+            <option value="">Select a category</option>
+            <option value="chips">Chips</option>
+            <option value="candy">Candy</option>
+            <option value="milk">Milk</option>
+        </select>
+        <br />
+
+        <label for="ex_date">Expire Date</label>
+        <input type="date" id="ex_date" name="ex_date" required />
+        <br />
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" required></textarea>
+        <br />
+
+        <label for="price">Price</label>
+        <input type="number" id="price" name="price" required />
+        <br />
+
+        <label for="country">Country</label>
+        <input type="text" id="country" name="country" required />
+        <br />
+
+        <label for="image">Image</label>
+        <input type="file" id="image" name="image" accept="image/*" required />
+        <br /><br />
+
+        <input type="submit" value="Create" />
+    </form>
+{% else %}
+    <p>Please <a href="{% url 'login' %}">login</a> to list a product.</p>
+{% endif %}
+
+<h2>Products</h2>
+<hr />
 <section class="grid-layout">
-  {% for product in products %}
-  <div>
-    <img src="{{ product.image.url }}" alt="{{ product.name }}" />
-
-    <small>{{ product.category }}</small>
-
-    <h3>{{ product.name }}</h3>
-
-    <small>{{ product.ex_date }}</small>
-
-    <p>{{ product.description }}</p>
-
-    <strong>{{ product.price }}</strong>
-  </div>
-  {% endfor %}
+    {% for product in products %}
+        <div>
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+            <small>{{ product.category }}</small>
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <strong>{{ product.price }}</strong>
+            <small>{{ product.country }}</small>
+            {% if user.is_authenticated %}
+                {% if product.user == user or not product.user %}
+                    <br />
+                    <a href="{% url 'edit_product' product.id %}">Edit</a>
+                    <form action="{% url 'delete_product' product.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete {{ product.name }}?');" />
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No products available.</p>
+    {% endfor %}
 </section>
-{% endblock content %}
+{% endblock %}
