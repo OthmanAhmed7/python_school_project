@@ -36,4 +36,5 @@ urlpatterns = [
     path('products/contact/', prod_con, name='contact'),
     path('products/welcome/', prod_wel, name='welcome'),
     path('products/', include('products.urls')),
+    path('mayapi/', include('myapi.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
