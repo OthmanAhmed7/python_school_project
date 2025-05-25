@@ -16,7 +16,8 @@ Including another URLconf
 """
 
 from django.urls import path, include
+from myapi.views import categories
 
 urlpatterns = [
-    
+    path('categories/', categories)
     ]
