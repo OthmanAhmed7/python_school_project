@@ -16,8 +16,12 @@ Including another URLconf
 """
 
 from django.urls import path, include
-from myapi.views import categories
+from myapi.views import users, login, CategoryView
 
 urlpatterns = [
-    path('categories/', categories)
+    path('users/', users),
+    path('users/<int:id>/', users),
+    path('login/', login),
+    path('categories/', CategoryView.as_view()),
+    path('categories/<int:id>/', CategoryView.as_view())
     ]
