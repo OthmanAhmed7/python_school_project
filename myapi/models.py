@@ -20,6 +20,5 @@ class Product(models.Model):
     ex_date = models.DateField()
     country = models.CharField(max_length=20)
     price = models.IntegerField()
-    category = models.CharField(choices=[('milk', 'milk'), ('chips', 'chips'), ('candy', 'candy')], max_length=10)
-    image = models.ImageField(upload_to='products/')
+    category = models.CharField(choices=[('laptop', 'laptop'), ('pc', 'pc'), ('phones', 'phones')], max_length=10)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

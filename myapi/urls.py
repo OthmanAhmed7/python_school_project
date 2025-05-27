@@ -16,12 +16,17 @@ Including another URLconf
 """
 
 from django.urls import path, include
-from myapi.views import users, login, CategoryView
+from myapi.views import ProductView, users, login, CategoryView
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'', ProductView, basename='product')
 
 urlpatterns = [
     path('users/', users),
     path('users/<int:id>/', users),
     path('login/', login),
     path('categories/', CategoryView.as_view()),
-    path('categories/<int:id>/', CategoryView.as_view())
+    path('categories/<int:id>/', CategoryView.as_view()),
+    path('myproducts/', include(router.urls))
     ]

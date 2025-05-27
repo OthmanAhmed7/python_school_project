@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from myapi.serializers import CategorySerializer, UserSerializer
+from myapi.serializers import CategorySerializer, ProductSerializer, UserSerializer
 from .models import *
 from django.http import JsonResponse
 from rest_framework.response import Response
@@ -8,6 +8,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_RE
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from django.contrib.auth.hashers import make_password, check_password
+from rest_framework import viewsets
 
 # Create your views here.
 @api_view(['GET', 'POST', 'PATCH', 'DELETE'])
@@ -106,3 +107,7 @@ class CategoryView(APIView):
             return Response({'message': 'category deleted successfully'}, status=HTTP_204_NO_CONTENT)
         except Category.DoesNotExist:
             return Response({'message': 'category not found'}, status=HTTP_404_NOT_FOUND)
+        
+class ProductView(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
